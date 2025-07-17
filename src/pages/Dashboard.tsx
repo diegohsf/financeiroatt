@@ -50,7 +50,7 @@ type Lancamento = {
   cartao_usado: string | null;
   is_recorrente: boolean;
   nota_fiscal_url: string | null;
-  categoria: { nome: string }[] | null; // Changed this to reflect the array type inferred by TS
+  categoria: { nome: string }[] | null;
 };
 
 const ITEMS_PER_PAGE = 10;
@@ -102,12 +102,7 @@ const Dashboard = () => {
 
         // Preparar dados para o gráfico de pizza
         const pieChartData = Object.entries(despesas.reduce((acc: any, l) => {
-          // Verificando a estrutura correta da categoria
-          let categoriaNome = "Outros";
-          if (l.categoria && Array.isArray(l.categoria) && l.categoria.length > 0) {
-            categoriaNome = l.categoria[0].nome;
-          }
-          
+          const categoriaNome = l.categoria?.[0]?.nome || "Outros";
           if (!acc[categoriaNome]) acc[categoriaNome] = 0;
           acc[categoriaNome] += l.valor;
           return acc;
@@ -566,13 +561,7 @@ const Dashboard = () => {
                         </TableCell>
                         <TableCell>
                           <Badge variant="secondary" className="font-normal">
-                            {(() => {
-                              // Função para obter o nome da categoria de forma consistente
-                              if (l.categoria && Array.isArray(l.categoria) && l.categoria.length > 0) {
-                                return l.categoria[0].nome;
-                              }
-                              return "Sem categoria";
-                            })()}
+                            {l.categoria?.[0]?.nome || "Sem categoria"}
                           </Badge>
                         </TableCell>
                         <TableCell>
