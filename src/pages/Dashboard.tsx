@@ -78,9 +78,9 @@ const Dashboard = () => {
     const fetchSummaryData = async () => {
       if (!dateRange?.from || !dateRange?.to) return;
       setLoadingSummary(true);
-      const user = (await supabase.auth.getUser()).data.user;
+      const { data: { user } } = await supabase.auth.getUser();
       if (!user) { navigate("/login"); return; }
-      const { data, error } = await supabase.from("lancamentos_financeiros").select("tipo, valor, is_recorrente, categoria:categorias(nome)").eq("user_id", user.id).gte("data", format(dateRange.from, "yyyy-MM-dd")).lte("data", format(dateRange.to, "yyyy-MM-dd"));
+      const { data, error } = await supabase.from("lancamentos_financeiros").select("tipo, valor, is_recorrente, categoria:categorias(nome)").gte("data", format(dateRange.from, "yyyy-MM-dd")).lte("data", format(dateRange.to, "yyyy-MM-dd"));
       if (error) { 
         showError("Erro ao buscar o resumo financeiro."); 
         setSaldoAtual(0); 
@@ -122,11 +122,11 @@ const Dashboard = () => {
   useEffect(() => {
     const fetchTableData = async () => {
       setLoadingTable(true);
-      const user = (await supabase.auth.getUser()).data.user;
+      const { data: { user } } = await supabase.auth.getUser();
       if (!user) { navigate("/login"); return; }
       const from = (currentPage - 1) * ITEMS_PER_PAGE;
       const to = from + ITEMS_PER_PAGE - 1;
-      let query = supabase.from("lancamentos_financeiros").select("*, categoria:categorias(*)", { count: "exact" }).eq("user_id", user.id);
+      let query = supabase.from("lancamentos_financeiros").select("*, categoria:categorias(*)", { count: "exact" });
       if (searchTerm) query = query.ilike("descricao", `%${searchTerm}%`);
       const { data, error, count } = await query.order("data", { ascending: false }).range(from, to);
       if (error) { showError("Erro ao buscar lançamentos."); }

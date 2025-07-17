@@ -67,7 +67,7 @@ const Relatorios = () => {
       if (!dateRange?.from || !dateRange?.to) return;
 
       setLoading(true);
-      const user = (await supabase.auth.getUser()).data.user;
+      const { data: { user } } = await supabase.auth.getUser();
       if (!user) { navigate("/login"); return; }
       
       const { data: cats } = await supabase.from("categorias").select("*");
@@ -80,7 +80,6 @@ const Relatorios = () => {
           *,
           categorias(id, nome, tipo)
         `)
-        .eq("user_id", user.id)
         .gte("data", format(dateRange.from, "yyyy-MM-dd"))
         .lte("data", format(dateRange.to, "yyyy-MM-dd"));
       if (tipoFiltro !== "todos") query = query.eq("tipo", tipoFiltro);
@@ -140,7 +139,7 @@ const Relatorios = () => {
       if (Array.isArray(lancamento.categoria) && lancamento.categoria.length > 0) {
         return lancamento.categoria[0].nome || "Sem categoria";
       } else if (typeof lancamento.categoria === 'object' && lancamento.categoria !== null) {
-        return lancamento.categoria.nome || "Sem categoria";
+        return (lancamento.categoria as any).nome || "Sem categoria";
       }
     }
     
