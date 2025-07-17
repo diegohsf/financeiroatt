@@ -121,7 +121,7 @@ const Dashboard = () => {
       if (!user) { navigate("/login"); return; }
       const from = (currentPage - 1) * ITEMS_PER_PAGE;
       const to = from + ITEMS_PER_PAGE - 1;
-      let query = supabase.from("lancamentos_financeiros").select("*, categoria:categorias(*)", { count: "exact" });
+      let query = supabase.from("lancamentos_financeiros").select("*, categoria:categorias(*)", { count: "exact" }).eq("user_id", user.id);
       if (searchTerm) query = query.ilike("descricao", `%${searchTerm}%`);
       const { data, error, count } = await query.order("data", { ascending: false }).range(from, to);
       if (error) { showError("Erro ao buscar lançamentos."); }
@@ -561,7 +561,17 @@ const Dashboard = () => {
                         </TableCell>
                         <TableCell>
                           <Badge variant="secondary" className="font-normal">
-                            {l.categoria?.[0]?.nome || "Sem categoria"}
+                            {(() => {
+                              // Função para obter o nome da categoria de forma consistente
+                              if (l.categoria) {
+                                if (Array.isArray(l.categoria) && l.categoria.length > 0) {
+                                  return l.categoria[0].nome;
+                                } else if (typeof l.categoria === 'object' && l.categoria !== null) {
+                                  return l.categoria.nome;
+                                }
+                              }
+                              return "Sem categoria";
+                            })()}
                           </Badge>
                         </TableCell>
                         <TableCell>
