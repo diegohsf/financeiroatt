@@ -32,7 +32,7 @@ import { Skeleton } from "@/components/ui/skeleton";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { Calendar } from "@/components/ui/calendar";
 import { DateRange } from "react-day-picker";
-import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Badge } from "@/components/ui/badge";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
@@ -104,12 +104,8 @@ const Dashboard = () => {
         const pieChartData = Object.entries(despesas.reduce((acc: any, l) => {
           // Verificando a estrutura correta da categoria
           let categoriaNome = "Outros";
-          if (l.categoria) {
-            if (Array.isArray(l.categoria) && l.categoria.length > 0) {
-              categoriaNome = l.categoria[0].nome;
-            } else if (typeof l.categoria === 'object' && l.categoria !== null) {
-              categoriaNome = l.categoria.nome;
-            }
+          if (l.categoria && Array.isArray(l.categoria) && l.categoria.length > 0) {
+            categoriaNome = l.categoria[0].nome;
           }
           
           if (!acc[categoriaNome]) acc[categoriaNome] = 0;
@@ -572,12 +568,8 @@ const Dashboard = () => {
                           <Badge variant="secondary" className="font-normal">
                             {(() => {
                               // Função para obter o nome da categoria de forma consistente
-                              if (l.categoria) {
-                                if (Array.isArray(l.categoria) && l.categoria.length > 0) {
-                                  return l.categoria[0].nome;
-                                } else if (typeof l.categoria === 'object' && l.categoria !== null) {
-                                  return l.categoria.nome;
-                                }
+                              if (l.categoria && Array.isArray(l.categoria) && l.categoria.length > 0) {
+                                return l.categoria[0].nome;
                               }
                               return "Sem categoria";
                             })()}
