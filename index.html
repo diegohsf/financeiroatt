@@ -1,0 +1,38 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Financeiro - Causa Ganha</title>
+    <script>
+      // Script para aplicar o tema antes do carregamento da página para evitar flash
+      (function() {
+        const storageKey = 'vite-ui-theme';
+        const theme = localStorage.getItem(storageKey);
+        
+        // Se o tema for explicitamente definido como dark, aplicar classe dark
+        if (theme === 'dark') {
+          document.documentElement.classList.add('dark');
+        } 
+        // Se o tema for light ou não estiver definido, remover classe dark
+        else if (theme === 'light') {
+          document.documentElement.classList.remove('dark');
+        }
+        // Se o tema for system, verificar preferência do sistema
+        else {
+          const systemPrefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+          if (systemPrefersDark) {
+            document.documentElement.classList.add('dark');
+          } else {
+            document.documentElement.classList.remove('dark');
+          }
+        }
+      })();
+    </script>
+  </head>
+
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html>
