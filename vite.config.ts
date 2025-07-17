@@ -7,6 +7,9 @@ export default defineConfig(() => ({
   server: {
     host: "::",
     port: 8080,
+    allowedHosts: [
+      "financeiro.golawtech.com.br"
+    ],
   },
   plugins: [dyadComponentTagger(), react()],
   resolve: {
