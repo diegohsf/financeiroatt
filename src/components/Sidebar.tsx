@@ -11,7 +11,8 @@ import {
   DollarSign,
   Settings,
   X,
-  ChevronRight
+  ChevronRight,
+  Bell
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { supabase } from "@/integrations/supabase/client";
@@ -45,6 +46,12 @@ const navItems = [
     icon: <Shapes className="w-5 h-5" />,
     to: "/categorias",
     description: "Organizar transações"
+  },
+  {
+    label: "Notificações",
+    icon: <Bell className="w-5 h-5" />,
+    to: "/notificacoes",
+    description: "WhatsApp e mensagens"
   },
   {
     label: "Folha de Pagamento",

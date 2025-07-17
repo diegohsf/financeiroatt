@@ -12,6 +12,7 @@ import Dashboard from "./pages/Dashboard";
 import Lancamento from "./pages/Lancamento";
 import Relatorios from "./pages/Relatorios";
 import Categorias from "./pages/Categorias";
+import Notificacoes from "./pages/Notificacoes";
 import Perfil from "./pages/Perfil";
 import FolhaPagamento from "./pages/FolhaPagamento";
 import FuncionarioDetalhes from "./pages/FuncionarioDetalhes";
@@ -33,6 +34,7 @@ const App = () => (
           <Route path="/lancamento" element={<Lancamento />} />
           <Route path="/relatorios" element={<Relatorios />} />
           <Route path="/categorias" element={<Categorias />} />
+          <Route path="/notificacoes" element={<Notificacoes />} />
           <Route path="/perfil" element={<Perfil />} />
           <Route path="/folha-pagamento" element={<FolhaPagamento />} />
           <Route path="/funcionarios/:id" element={<FuncionarioDetalhes />} />
